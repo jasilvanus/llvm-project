@@ -11,9 +11,12 @@
 
 define dso_local void @main.resume.0(i64 %0, %structA %arg01, [23 x i32] %arg12, [30 x i32] %arg23) {
 ; CHECK-LABEL: define dso_local void @main.resume.0(
-; CHECK-SAME: i64 [[TMP0:%.*]], { [[STRUCTA:%.*]], [23 x i32], [30 x i32] } [[TMP1:%.*]]) {
+; CHECK-SAME: i64 [[TMP0:%.*]], [[STRUCTA:%.*]] [[ARG01:%.*]], [23 x i32] [[ARG12:%.*]], [30 x i32] [[ARG23:%.*]]) {
 ; CHECK-NEXT:  entryresume.0:
 ; CHECK-NEXT:    [[FOO:%.*]] = call ptr @getter(i32 108)
+; CHECK-NEXT:    [[TMP6:%.*]] = insertvalue { [[STRUCTA]], [23 x i32], [30 x i32] } poison, [[STRUCTA]] [[ARG01]], 0
+; CHECK-NEXT:    [[TMP8:%.*]] = insertvalue { [[STRUCTA]], [23 x i32], [30 x i32] } [[TMP6]], [23 x i32] [[ARG12]], 1
+; CHECK-NEXT:    [[TMP1:%.*]] = insertvalue { [[STRUCTA]], [23 x i32], [30 x i32] } [[TMP8]], [30 x i32] [[ARG23]], 2
 ; CHECK-NEXT:    [[TMP3:%.*]] = extractvalue { [[STRUCTA]], [23 x i32], [30 x i32] } [[TMP1]], 2
 ; CHECK-NEXT:    [[DOTFCA_0_EXTRACT:%.*]] = extractvalue [30 x i32] [[TMP3]], 0
 ; CHECK-NEXT:    [[DOTFCA_1_EXTRACT:%.*]] = extractvalue [30 x i32] [[TMP3]], 1
